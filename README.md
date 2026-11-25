@@ -1,5 +1,33 @@
 # 3D-CNN Shape Signature
 
+<!-- brainlife-app:begin (generated from the App manifest; edit the manifest, not this block) -->
+
+> **Computes a 128-value shape signature for each tract mask using the flatten layer of a TensorFlow 3D CNN trained to classify TractSeg bundles, and writes them to signature.json.**
+
+Crops each tract mask to its bounding box, resizes it to 64x64x64 and passes it through a Keras 3D convolutional network trained on TractSeg outputs of about 100 subjects, keeping the 128-element flatten layer output as a numerical descriptor of the tract shape. Use it to obtain feature vectors for comparing or clustering tract shapes. Resizing stretches each mask to the box independently along each axis, so absolute size is not preserved.
+
+| | |
+|---|---|
+| 📥 **Inputs** | `neuro/tractmasks` |
+| 📤 **Outputs** | `raw` |
+| 🐳 **Container** | `brainlife/tensorflow:1.12.0` |
+| ⚙️ **Resources** | 16 CPUs · 0.17 h walltime |
+| 🔗 **Run it** | [doi.org/10.25663/brainlife.app.141](https://doi.org/10.25663/brainlife.app.141) |
+
+#### 📥 Inputs
+
+| Input | Datatype | Required | Description |
+|---|---|---|---|
+| `masks` | `neuro/tractmasks` | yes | Collection of binary tract masks (NIfTI), for example TractSeg bundle masks. |
+
+#### 📤 Outputs
+
+| Output | Datatype | Description |
+|---|---|---|
+| `raw` | `raw` | signature.json mapping each mask file name to its 128 flatten-layer values. |
+
+<!-- brainlife-app:end -->
+
 This App takes tract masks and convert them to series of numerical values that chracaterizes each masks. The numerical values are generated from the flattened output of 3D convolutional layers of the model trained to classify tract names. Output values could be used as a "shape signature" used to compared against other similar shaped tracts.
 
 ## Method
